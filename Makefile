@@ -35,10 +35,10 @@ api-composer-require-dev:
 	docker-compose run --rm api-php-fpm composer require --dev ${name}
 
 api-migrations-migrate:
-	docker-compose run --rm api-php-fpm composer app migrations:migrate
+	docker-compose run --rm api-php-fpm php bin/console doctrine:migrations:migrate --no-interaction
 
 api-migrations-migrate-prev:
-	docker-compose run --rm api-php-fpm composer app migrations:migrate prev
+	docker-compose run --rm api-php-fpm php bin/console doctrine:migrations:migrate prev
 
 api-migrations-diff:
-	docker-compose run --rm api-php-fpm composer app migrations:diff
+	docker-compose run --rm api-php-fpm php bin/console doctrine:migrations:diff
