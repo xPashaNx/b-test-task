@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Product\Entity\ProductItem;
 
-use App\Domain\Common\Uuid;
+use App\Domain\Common\Entity\Uuid;
 use App\Domain\Product\Entity\Product\Product;
 use App\Domain\Product\Entity\ProductItem\Price\Price;
 use App\Domain\Product\Entity\ProductItem\Price\PriceCurrency;

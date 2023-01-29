@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Category\Entity;
 
 use App\Domain\Category\Entity\Category\Category;
-use App\Domain\Common\Uuid;
+use App\Domain\Common\Entity\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use Webmozart\Assert\Assert;
 

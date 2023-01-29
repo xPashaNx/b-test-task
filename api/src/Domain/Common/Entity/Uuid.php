@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Common;
+namespace App\Domain\Common\Entity;
 
 use Symfony\Component\Uid\Uuid as UuidGenerator;
 use Webmozart\Assert\Assert;

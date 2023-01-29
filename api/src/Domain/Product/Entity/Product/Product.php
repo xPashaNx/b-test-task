@@ -6,7 +6,7 @@ namespace App\Domain\Product\Entity\Product;
 
 use App\Domain\Category\Entity\Category\Category;
 use App\Domain\Category\Entity\PriceProperty;
-use App\Domain\Common\Uuid;
+use App\Domain\Common\Entity\Uuid;
 use App\Domain\Product\Entity\ProductItem\ProductItem;
 use App\Domain\Product\Entity\PropertyOption;
 use Doctrine\Common\Collections\ArrayCollection;
