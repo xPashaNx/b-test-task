@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Common;
 
 use Symfony\Component\Uid\Uuid as UuidGenerator;
+use Webmozart\Assert\Assert;
 
 class Uuid
 {
@@ -13,6 +14,7 @@ class Uuid
 	public function __construct(string $value)
 	{
 		$this->value = strtolower($value);
+		Assert::uuid($this->value);
 	}
 
 	public static function generate(): self

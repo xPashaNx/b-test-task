@@ -21,4 +21,11 @@ class Product
 	#[ORM\ManyToOne(targetEntity: Category::class)]
 	#[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
 	private Category $category;
+
+	public function __construct(Name $name, Category $category)
+	{
+		$this->id = Uuid::generate();
+		$this->name = $name;
+		$this->category = $category;
+	}
 }
