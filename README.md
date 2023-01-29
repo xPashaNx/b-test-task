@@ -12,7 +12,7 @@
     docker-compose build
     docker-compose up -d
 
-### Composer шnstallation
+### Composer installation
     make api-composer-install
 
     // use docker
