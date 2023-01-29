@@ -32,6 +32,14 @@ class ProductProperty
 		Assert::stringNotEmpty($this->name);
 	}
 
+	/**
+	 * @return Category
+	 */
+	public function getCategory(): Category
+	{
+		return $this->category;
+	}
+
 	public function getName(): string
 	{
 		return $this->name;

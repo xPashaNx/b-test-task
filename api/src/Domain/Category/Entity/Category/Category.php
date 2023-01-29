@@ -56,6 +56,14 @@ class Category
 		return $properties[0];
 	}
 
+	/**
+	 * @return PriceProperty[]
+	 */
+	public function getPriceProperties(): array
+	{
+		return $this->priceProperties->toArray();
+	}
+
 	public function addProductProperty(ProductProperty $property): void
 	{
 		if (!$this->productProperties->contains($property)) {

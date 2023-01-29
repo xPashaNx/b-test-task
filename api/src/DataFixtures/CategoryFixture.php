@@ -11,9 +11,13 @@ use Doctrine\Persistence\ObjectManager;
 
 class CategoryFixture extends Fixture
 {
+	public const SHOES_REFERENCE = 'shoes';
+	public const CLOTHES_REFERENCE = 'clothes';
+	public const JEWELRY_REFERENCE = 'jewelry';
+
 	private array $categories = [
 		[
-			'sysname' => 'shoes',
+			'sysname' => self::SHOES_REFERENCE,
 			'title' => 'Shoes',
 			'productProperties' => [
 				'size'
@@ -22,7 +26,7 @@ class CategoryFixture extends Fixture
 			],
 		],
 		[
-			'sysname' => 'clothes',
+			'sysname' => self::CLOTHES_REFERENCE,
 			'title' => 'Clothes',
 			'productProperties' => [
 				'variant'
@@ -31,7 +35,7 @@ class CategoryFixture extends Fixture
 			],
 		],
 		[
-			'sysname' => 'jewelry',
+			'sysname' => self::JEWELRY_REFERENCE,
 			'title' => 'Jewelry',
 			'productProperties' => [
 				'length'
@@ -65,6 +69,7 @@ class CategoryFixture extends Fixture
 			}
 
 		    $manager->persist($categoryEntity);
+			$this->addReference($category['sysname'], $categoryEntity);
 		}
 
         $manager->flush();

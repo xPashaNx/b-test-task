@@ -23,12 +23,28 @@ class PropertyOption
 	#[ORM\Column(type: "text", length: 255)]
 	private string $value;
 
-	public function __construct(ProductProperty $property, string $value)
+	public function __construct(ProductProperty $property, $value)
 	{
 		$this->id = Uuid::generate();
 		$this->property = $property;
-		$this->value = $value;
+		$this->value = (string)$value;
 
 		Assert::notEmpty($value);
+	}
+
+	/**
+	 * @return ProductProperty
+	 */
+	public function getProperty(): ProductProperty
+	{
+		return $this->property;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getValue(): string
+	{
+		return $this->value;
 	}
 }
