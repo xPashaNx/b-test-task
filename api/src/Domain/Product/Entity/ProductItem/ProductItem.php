@@ -45,8 +45,7 @@ class ProductItem
 	{
 		$this->id = Uuid::generate();
 		$this->product = $product;
-		$this->priceValue = $price->getValue();
-		$this->priceCurrency = $price->getCurrency();
+		$this->setPrice($price);
 
 		$this->propertyOptions = new ArrayCollection();
 		foreach ($productProperties as $productProperty) {
@@ -64,8 +63,7 @@ class ProductItem
 
 	public function update(ProductItem $item): void
 	{
-		$this->priceValue = $item->getPrice()->getValue();
-		$this->priceCurrency = $item->getPrice()->getCurrency();
+		$this->setPrice($item->getPrice());
 
 		foreach ($item->getPropertyOptions() as $propertyOption) {
 			$this->addPropertyOption($propertyOption);
@@ -95,6 +93,12 @@ class ProductItem
 		}
 
 		return true;
+	}
+
+	private function setPrice(Price $price): void
+	{
+		$this->priceValue = $price->getValue();
+		$this->priceCurrency = $price->getCurrency();
 	}
 
 	private function addPropertyOption(PropertyOption $option): void
