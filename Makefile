@@ -28,6 +28,12 @@ docker-build:
 api-composer-install:
 	docker-compose run --rm api-php-fpm composer install
 
+api-composer-require:
+	docker-compose run --rm api-php-fpm composer require ${name}
+
+api-composer-require-dev:
+	docker-compose run --rm api-php-fpm composer require --dev ${name}
+
 api-migrations-migrate:
 	docker-compose run --rm api-php-fpm composer app migrations:migrate
 
