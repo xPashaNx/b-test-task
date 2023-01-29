@@ -27,7 +27,7 @@ class Product
 	#[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
 	private Category $category;
 
-	#[ORM\OneToMany(mappedBy: "product", targetEntity: ProductItem::class, cascade: ["persist"])]
+	#[ORM\OneToMany(mappedBy: "product", targetEntity: ProductItem::class, cascade: ["persist"], orphanRemoval: true)]
 	private Collection $productItems;
 
 	public function __construct(Name $name, Category $category)
@@ -36,6 +36,14 @@ class Product
 		$this->name = $name;
 		$this->category = $category;
 		$this->productItems = new ArrayCollection();
+	}
+
+	/**
+	 * @return Category
+	 */
+	public function getCategory(): Category
+	{
+		return $this->category;
 	}
 
 	/**
@@ -51,8 +59,7 @@ class Product
 		}
 
 		if (empty($priceProperties)) {
-			$this->productItems->clear();
-			$this->addProductItem($item);
+			$this->getFirstProductItem()->update($item);
 			return;
 		}
 
@@ -75,8 +82,6 @@ class Product
 	 * @return bool
 	 */
 	private function updateProductItem(ProductItem $item, array $priceProperties): bool {
-		$isUpdated = false;
-
 		$pricePropertyNames = array_map(
 			fn(PriceProperty $property) => $property->getProperty()->getName(),
 			$priceProperties
@@ -88,19 +93,15 @@ class Product
 		);
 
 		if ($propertyOptionsByPrice) {
-			$productItems = $this->getProductItems();
-			$this->productItems->clear();
-			foreach ($productItems as $productItem) {
-				if ($productItem->isSamePropertyOptions($propertyOptionsByPrice)) {
-					$this->addProductItem($item);
-					$isUpdated = true;
-				} else {
-					$this->addProductItem($productItem);
+			foreach ($this->getProductItems() as $productItem) {
+				if (!$productItem->isSamePropertyOptions($propertyOptionsByPrice)) {
+					$productItem->update($item);
+					return true;
 				}
 			}
 		}
 
-		return $isUpdated;
+		return false;
 	}
 
 	/**
@@ -109,5 +110,10 @@ class Product
 	private function getProductItems(): array
 	{
 		return $this->productItems->toArray();
+	}
+
+	private function getFirstProductItem(): ProductItem
+	{
+		return $this->productItems->first();
 	}
 }

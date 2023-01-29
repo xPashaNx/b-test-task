@@ -47,4 +47,10 @@ class PropertyOption
 	{
 		return $this->value;
 	}
+
+	public function isEqualTo(PropertyOption $option): bool
+	{
+		return $this->property->isEqualTo($option->getProperty())
+			&& $this->getValue() == $option->getValue();
+	}
 }

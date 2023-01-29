@@ -1,0 +1,24 @@
+POST http://localhost:3000/product/price
+Content-Type: application/json
+
+{
+  "productName": "Shoes 1",
+  "priceValue": 68.0,
+  "priceCurrency": "usd",
+  "properties": {
+    "size": 45
+  }
+}
+
+###
+POST http://localhost:3000/product/price
+Content-Type: application/json
+
+{
+"productName": "Jewelry 1",
+"priceValue": 305.0,
+"priceCurrency": "usd",
+"properties": {
+"length": 305
+}
+}

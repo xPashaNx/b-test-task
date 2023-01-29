@@ -32,7 +32,7 @@ class ProductItem
 	#[ORM\Column(type: "product_item_price_currency")]
 	private PriceCurrency $priceCurrency;
 
-	#[ORM\ManyToMany(targetEntity: PropertyOption::class, inversedBy: "product_items", cascade: ["persist"])]
+	#[ORM\ManyToMany(targetEntity: PropertyOption::class, inversedBy: "product_items", cascade: ["persist"], orphanRemoval: true)]
 	#[ORM\JoinTable(name: 'product_properties')]
 	private Collection $propertyOptions;
 
@@ -57,23 +57,27 @@ class ProductItem
 		}
 	}
 
+	public function getPrice(): Price
+	{
+		return new Price($this->priceValue, $this->priceCurrency);
+	}
+
+	public function update(ProductItem $item): void
+	{
+		$this->priceValue = $item->getPrice()->getValue();
+		$this->priceCurrency = $item->getPrice()->getCurrency();
+
+		foreach ($item->getPropertyOptions() as $propertyOption) {
+			$this->addPropertyOption($propertyOption);
+		}
+	}
+
 	/**
 	 * @return PropertyOption[]
 	 */
 	public function getPropertyOptions(): array
 	{
 		return $this->propertyOptions->toArray();
-	}
-
-	public function getPrice(): Price
-	{
-		return new Price($this->priceValue, $this->priceCurrency);
-	}
-
-	public function setPrice(Price $price): void
-	{
-		$this->priceValue = $price->getValue();
-		$this->priceCurrency = $price->getCurrency();
 	}
 
 	/**
@@ -84,10 +88,8 @@ class ProductItem
 	{
 		foreach ($options as $option) {
 			foreach ($this->getPropertyOptions() as $currentOption) {
-				if ($currentOption->getProperty()->isEqualTo($option->getProperty())) {
-					if ($currentOption->getValue() !== $option->getValue()) {
-						return false;
-					}
+				if ($currentOption->isEqualTo($option)) {
+					return false;
 				}
 			}
 		}
@@ -97,8 +99,12 @@ class ProductItem
 
 	private function addPropertyOption(PropertyOption $option): void
 	{
-		if (!$this->propertyOptions->contains($option)) {
-			$this->propertyOptions->add($option);
+		foreach ($this->getPropertyOptions() as $propertyOption) {
+			if ($propertyOption->isEqualTo($option)) {
+				return;
+			}
 		}
+
+		$this->propertyOptions->add($option);
 	}
 }
