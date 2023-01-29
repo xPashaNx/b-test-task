@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230129085140 extends AbstractMigration
+final class Version20230129100143 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,6 +21,7 @@ final class Version20230129085140 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE categories (id UUID NOT NULL, sysname VARCHAR(255) NOT NULL, title TEXT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_3AF34668ADD472C4 ON categories (sysname)');
         $this->addSql('COMMENT ON COLUMN categories.id IS \'(DC2Type:guid)\'');
         $this->addSql('CREATE TABLE category_price_properties (id UUID NOT NULL, property_id UUID DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B6768747549213EC ON category_price_properties (property_id)');

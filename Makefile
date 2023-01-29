@@ -42,3 +42,9 @@ api-migrations-migrate-prev:
 
 api-migrations-diff:
 	docker-compose run --rm api-php-fpm php bin/console doctrine:migrations:diff
+
+api-fixture-create:
+	docker-compose run --rm api-php-fpm php bin/console make:fixtures
+
+api-fixture-load:
+	docker-compose run --rm api-php-fpm php bin/console doctrine:fixtures:load

@@ -17,4 +17,10 @@ class PriceProperty
 	#[ORM\ManyToOne(targetEntity: ProductProperty::class)]
 	#[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id')]
 	private ProductProperty $property;
+
+	public function __construct(ProductProperty $property)
+	{
+		$this->id = Uuid::generate();
+		$this->property = $property;
+	}
 }
